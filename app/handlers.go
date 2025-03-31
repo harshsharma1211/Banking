@@ -3,9 +3,9 @@ package app
 import (
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"net/http"
-	
+
+	"github.com/ashishjuyal/banking/service"
 )
 
 type Customer struct {
@@ -13,17 +13,18 @@ type Customer struct {
 	City    string `json:"city" xml:"city"`
 	Zipcode string `json:"zipcode" xml:"zipcode"`
 }
-
-func greet(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello World!!")
+type CustomerHandlers struct {
+	service service.CustomerService
 }
-func getAllCustomers(w http.ResponseWriter, r *http.Request) {
 
-	customers := []Customer{
-		{Name: "Anukul", City: "Greater Noida", Zipcode: "110075"},
-		{Name: "Raj", City: "Gorakhpur", Zipcode: "110075"},
-		{Name: "Sandeep", City: "Noida", Zipcode: "110075"},
-	}
+func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Request) {
+
+	//customers := []Customer{
+	//	{Name: "Anukul", City: "Greater Noida", Zipcode: "110075"},
+	//	{Name: "Raj", City: "Gorakhpur", Zipcode: "110075"},
+	//	{Name: "Sandeep", City: "Noida", Zipcode: "110075"},
+	//}
+	customers, _ := ch.service.GetAllCustomer()
 
 	//w.Header().Add("Content-Type", "application/json")
 	if r.Header.Get("Content-Type") == "application/xml" {
