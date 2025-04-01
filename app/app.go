@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/ashishjuyal/banking/domain"
 	"github.com/ashishjuyal/banking/service"
 	"github.com/gorilla/mux"
 )
@@ -13,7 +14,7 @@ func Start() {
 	router := mux.NewRouter() // mux is gorilla Mutlipexer which is a router which simplifies route definition and also popular for its routing capabilities
 
 	//wiring
-	ch := CustomerHandlers{service.NewCustomerService(customerRepositoryDb)}
+	ch := CustomerHandlers{service.NewCustomerService(domain.CustomerRepositoryDb)}
 
 	// defining routes( multiplexer)
 	router.HandleFunc("/customers", ch.getAllCustomers).Methods(http.MethodGet)

@@ -9,10 +9,11 @@ import (
 )
 
 type CustomerRepositoryDb struct {
-	client 
+	client
+}
 
 // receiver function to implement the FindAll method in CustomerRepositoryDb struct
-func (d CustomerRepositoryDb) FindALL ([]Customer, error) {
+func (d CustomerRepositoryDb) FindALL([]Customer, error) {
 
 	//Defining the sql
 	FindALLSql := "select customer_id,name,city,zipcode,date_of_birth,status from customers"
@@ -39,12 +40,13 @@ func (d CustomerRepositoryDb) FindALL ([]Customer, error) {
 
 }
 
-func (d CustomerRepositoryDb) ById(id string) (*Customer,error){
+func (d CustomerRepositoryDb) ById(id string) (*Customer, error) {
 	customerSql := "select customer_id,name,city,zipcode,date_of_birth,status from customers where customer_id =?"
-    row := d.client.QueryRow(customerSql,id)
-	var c customer
-	row.Scan()
+	row := d.client.QueryRow(customerSql, id)
+	//var c customer
+	Customer := row.Scan()
 
+	return &Customer
 }
 
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
@@ -59,7 +61,5 @@ func NewCustomerRepositoryDb() CustomerRepositoryDb {
 	client.SetMaxIdleConns(10)
 
 	return CustomerRepositoryDb{}
-
-}
 
 }
